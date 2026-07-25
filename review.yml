@@ -1,0 +1,325 @@
+aid: marshmallow
+name: Marshmallow
+review:
+  question: Does Marshmallow publish a real, public, self-serve developer portal or downloadable API specifications?
+  answer: false
+  date: '2026-07-25'
+  reviewer: API Evangelist
+  homeMarket: United Kingdom
+  gated: true
+  classification: partner-gated — no public API surface
+findings:
+  summary: |
+    Marshmallow is a UK direct-to-consumer insurtech (motor, telematics motor,
+    van, home, and car finance) selling to people who have recently moved to the
+    United Kingdom. It is technology-first and owns its own underwriting through
+    Marshmallow Insurance Limited (Gibraltar Financial Services Commission), with
+    distribution by Marshmallow Financial Services Limited (FCA FRN 797672) and
+    car finance by Marshmallow Credit Services Limited (FCA FRN 1024606).
+
+    Despite being an engineering-led insurer, Marshmallow publishes NO public
+    developer portal, NO API reference, and NO downloadable OpenAPI or Swagger
+    definition. Every conventional developer entry point was probed on
+    2026-07-25 and none resolved to documentation. The company's own APIs exist
+    — api.marshmallow.com is live behind nginx and auth.marshmallow.com serves a
+    valid OpenID Connect discovery document — but they serve Marshmallow's own
+    consumer app, its internal agent portal, and named partners only. There is
+    no self-serve signup, no client registration, no sandbox, and no published
+    product scopes.
+
+    This is the expected and correct posture for a UK personal-lines D2C
+    insurtech. The UK has no open-insurance obligation: the FCA and PRA impose
+    conduct and solvency duties, not API duties, and the FCA's Open Finance work
+    remains consultation rather than rule. The only market-wide API and data
+    modernization effort in the UK is the London Market's Blueprint Two / PPL /
+    Whitespace / Ki programme, which is aimed at brokers and syndicates in the
+    subscription market and has no bearing on a personal-lines direct writer
+    like Marshmallow. Nothing forces Marshmallow to expose quote, bind, issue or
+    FNOL to third parties, and it does not.
+  developerPortal:
+    url: ''
+    exists: false
+    type: none
+    note: |
+      No first-party developer portal of any kind. Judged (d) — does not exist —
+      rather than (a) real portal, (b) login wall, or (c) marketing page. The
+      closest gated surfaces are consumer account login walls, not developer
+      surfaces.
+  probes:
+    - url: https://marshmallow.com
+      status: 200
+      note: Corporate/consumer site, redirects to www. Next.js front end.
+    - url: https://www.marshmallow.com
+      status: 200
+      note: 'Title: "Find Cheap Car Insurance for UK Newcomers | Marshmallow".'
+    - url: https://developer.marshmallow.com
+      status: 000
+      note: DNS does not resolve.
+    - url: https://developers.marshmallow.com
+      status: 000
+      note: DNS does not resolve.
+    - url: https://docs.marshmallow.com
+      status: 403
+      note: |
+        CloudFront distribution exists but returns "403 ERROR / Request blocked"
+        to anonymous callers. Not a public documentation site; every path probed
+        (/openapi.json, /openapi.yaml, /swagger.json, /api-docs, /docs, /spec,
+        /redoc, /graphql, /.well-known/*) returned 403.
+    - url: https://api.marshmallow.com
+      status: 403
+      note: |
+        Live nginx origin; root returns 403 Forbidden. This is Marshmallow's own
+        application API. Every spec path probed (/openapi.json, /openapi.yaml,
+        /swagger.json, /api-docs, /docs, /v1/openapi.json, /spec, /redoc,
+        /graphql, /health, /.well-known/openid-configuration,
+        /.well-known/oauth-authorization-server) returned 404. No documentation,
+        no discovery, no public entry point.
+    - url: https://www.marshmallow.com/developers
+      status: 404
+    - url: https://www.marshmallow.com/developer
+      status: 404
+    - url: https://www.marshmallow.com/api
+      status: 404
+    - url: https://www.marshmallow.com/partners
+      status: 404
+    - url: https://www.marshmallow.com/integrations
+      status: 404
+    - url: https://auth.marshmallow.com
+      status: 401
+      note: |
+        OAuth 2.0 / OIDC authorization server (Java servlet stack — JSESSIONID,
+        Spring-Authorization-Server-shaped discovery document). Root returns 401
+        Unauthorized.
+    - url: https://auth.marshmallow.com/.well-known/openid-configuration
+      status: 200
+      note: |
+        The ONLY anonymously reachable machine-readable artifact Marshmallow
+        serves. Saved verbatim to
+        well-known/marshmallow-openid-configuration.json.
+    - url: https://auth.marshmallow.com/.well-known/oauth-authorization-server
+      status: 401
+    - url: https://account.marshmallow.com
+      status: 200
+      note: 'Consumer account login wall. Title: "Account | Marshmallow". Not a developer portal.'
+    - url: https://app.marshmallow.com
+      status: 200
+      note: 'Same consumer account application. Title: "Account | Marshmallow".'
+    - url: https://www.marshmallow.com/affiliates
+      status: 200
+      note: |
+        Marketing page for a consumer affiliate/referral programme. No API, no
+        integration documentation, no technical onboarding.
+    - url: https://www.marshmallow.com/car-finance-partners
+      status: 200
+      note: |
+        Commercial page for dealers and brokers ("New-to-UK Car Finance for
+        Dealers & Brokers, HP up to £25k, FCA regulated"). Business-development
+        contact route only — no API, no partner technical documentation.
+    - url: https://www.marshmallow.com/robots.txt
+      status: 200
+      note: Disallows /quote and support paths. No developer paths referenced.
+    - url: https://www.marshmallow.com/sitemap.xml
+      status: 200
+      note: |
+        369 URLs harvested and searched. Zero developer, API, docs, or
+        integration pages. Only matches for "partner" are
+        /car-finance-partners and an Amazon promotion T&C page.
+    - url: https://www.marshmallow.com/llms.txt
+      status: 404
+    - url: https://www.marshmallow.com/.well-known/security.txt
+      status: 403
+    - url: https://developer.marshmallow.com and https://sandbox.marshmallow.com
+      status: 000
+      note: Neither hostname resolves.
+  openapi:
+    harvested: false
+    specsCount: 0
+    note: |
+      No OpenAPI, Swagger, RAML, or Blueprint definition is published anywhere
+      on Marshmallow's public properties. No Mintlify, Redoc, Stoplight, or
+      Readme.io documentation host is deployed on any Marshmallow domain. The
+      openapi/ directory is intentionally omitted from this repository rather
+      than filled with anything synthesized.
+  acordPosture:
+    posture: no ACORD reference found
+    detail: |
+      No mention of ACORD, AL3, ACORD XML, ACORD certified, or NGDS appears on
+      marshmallow.com, in its 369-URL sitemap, in its blog, or in any public
+      technical material. Marshmallow is a UK personal-lines direct writer that
+      built its own pricing, underwriting, fraud, policy administration and
+      claims stack in-house and sells direct to consumers, so it has no agency
+      download, IVANS, Applied Epic or Vertafore AMS360 dependency — the ACORD
+      transport layer exists to move data between carriers and independent
+      agencies, and Marshmallow has no independent-agency channel. Absence here
+      is a structural fact about the business model, not an omission.
+  insuranceVerbs:
+    quote:
+      exposed: false
+      note: |
+        Quote exists as a consumer web and app flow at /quote (disallowed in
+        robots.txt) and is served by Marshmallow's own private api.marshmallow.com.
+        It is not exposed as a documented third-party API.
+    bind:
+      exposed: false
+      note: Consumer purchase flow only; no partner bind API is documented.
+    issue:
+      exposed: false
+      note: Policy issuance is internal to Marshmallow's own platform.
+    fnol:
+      exposed: false
+      note: |
+        First notice of loss is a consumer web/phone journey at
+        /claims and /claims-home-insurance. No FNOL API is documented.
+    audience: consumer-facing product only; any machine integration is partner-only and undocumented
+  authModel:
+    scheme: OAuth 2.0 / OpenID Connect (private clients only)
+    issuer: https://auth.marshmallow.com
+    discovery: https://auth.marshmallow.com/.well-known/openid-configuration
+    grantTypesSupported:
+      - authorization_code
+      - client_credentials
+      - refresh_token
+      - 'urn:ietf:params:oauth:grant-type:token-exchange'
+    tokenEndpointAuthMethodsSupported:
+      - client_secret_basic
+      - client_secret_post
+      - client_secret_jwt
+      - private_key_jwt
+      - tls_client_auth
+      - self_signed_tls_client_auth
+    codeChallengeMethodsSupported:
+      - S256
+    mtls: true
+    certificateBoundAccessTokens: true
+    dpop: true
+    scopesSupported:
+      - openid
+    note: |
+      This is a genuinely capable authorization server — PKCE, mTLS client
+      authentication, certificate-bound access tokens and DPoP are all
+      advertised, which is the profile of an operator that integrates with
+      regulated financial counterparties. But scopes_supported contains only
+      "openid": no product scopes for quote, policy, claims or billing are
+      published, there is no dynamic client registration endpoint, and no
+      public documentation explains how a third party would obtain a client.
+      The infrastructure for partner integration exists; the public developer
+      programme does not.
+  webhooks:
+    published: false
+    asyncapi: false
+    note: No event catalog, webhook documentation, or AsyncAPI definition is published.
+  postman:
+    public: false
+    note: |
+      Postman public search for "marshmallow insurance" returned zero
+      workspaces, collections, APIs, or specifications on 2026-07-25.
+  graphql:
+    published: false
+    note: |
+      https://api.marshmallow.com/graphql returns 404 and
+      https://docs.marshmallow.com/graphql returns 403. No public GraphQL
+      surface and no introspectable schema.
+  grpc:
+    published: false
+    note: No .proto files or gRPC surface published.
+  sdks:
+    published: false
+    note: |
+      The public GitHub organization github.com/marshmallow-insurance holds four
+      repositories, all front-end engineering rather than API artifacts:
+      smores-react (React component library), smores-icons, campfire (front-end
+      utils), and .github. No API client, no SDK, no specification.
+      Note the homonym trap: the widely used Python "marshmallow" serialization
+      library (github.com/marshmallow-code) is unrelated to this company.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.marshmallow.com
+      documented: false
+      public: false
+      note: |
+        Live private application API backing the Marshmallow consumer app and
+        internal agent portal. Anonymous root returns 403 and no path serves
+        documentation or discovery.
+    - protocol: OAuth2/OIDC
+      scheme: https
+      baseURL: https://auth.marshmallow.com
+      documented: partial
+      public: false
+      note: |
+        Discovery document is anonymously readable; the authorization server
+        itself is closed to unregistered clients.
+    - protocol: GraphQL
+      documented: false
+      public: false
+    - protocol: WebSocket
+      documented: false
+      public: false
+    - protocol: ACORD/EDI
+      documented: false
+      public: false
+      note: No ACORD AL3, ACORD XML, NGDS, or IVANS transport in evidence.
+  regulatoryContext: |
+    Home market United Kingdom. Conduct regulation by the FCA, prudential
+    regulation of the underwriting entity by the Gibraltar Financial Services
+    Commission under the Solvency II regime (hence the published Solvency and
+    Financial Condition Reports). There is no UK open-insurance mandate: unlike
+    Open Banking, no rule compels a UK insurer to expose quote, policy, claims,
+    or customer-data APIs to third parties. The FCA's Open Finance work is still
+    consultation. Consequently the UK's insurance API investment sits in the
+    London Market's Blueprint Two / PPL / Whitespace / Ki modernization
+    programme, which serves brokers and syndicates rather than developers and is
+    invisible from outside — and is irrelevant to a personal-lines direct writer
+    like Marshmallow. Marshmallow's zero public API surface is therefore market
+    behaviour, not a laggard signal.
+sources:
+  - url: https://www.marshmallow.com/
+    type: Website
+    note: Homepage; product framing and title confirmed 200 on 2026-07-25.
+  - url: https://www.marshmallow.com/our-story
+    type: About
+    note: |
+      Company history, mission, and the regulated-entity footer naming
+      Marshmallow Financial Services Limited (FCA FRN 797672, company 11005345)
+      and Marshmallow Credit Services Limited (FCA FRN 1024606, company
+      15834468), registered at 66 City Road, London, EC1Y 1BD.
+  - url: https://www.marshmallow.com/solvency-and-financial-condition-report
+    type: Compliance
+    note: SFCRs for 2023, 2024 and 2025 — confirms an authorised insurance undertaking.
+  - url: https://www.marshmallow.com/sitemap.xml
+    type: Sitemap
+    note: 369 URLs; no developer, API, or integration surface anywhere in it.
+  - url: https://auth.marshmallow.com/.well-known/openid-configuration
+    type: OpenIDConfiguration
+    note: |
+      HTTP 200, application/json, 1516 bytes, fetched anonymously 2026-07-25 and
+      saved verbatim to well-known/marshmallow-openid-configuration.json.
+  - url: https://github.com/marshmallow-insurance
+    type: GitHubOrganization
+    note: |
+      Four public repositories, all front-end libraries. Verified via GitHub API
+      on 2026-07-25. No API specifications or SDKs.
+  - url: https://en.wikipedia.org/wiki/Marshmallow_(company)
+    type: Reference
+    note: |
+      Founding 2017 by Alexander and Oliver Kent-Braham with David Goate;
+      unicorn valuation 2021; FT Europe's 2nd fastest-growing company 2023.
+  - url: https://www.fsc.gi/regulated-entity/marshmallow-insurance-limited-27092
+    type: Regulator
+    note: |
+      Gibraltar Financial Services Commission register entry for Marshmallow
+      Insurance Limited, the underwriting entity.
+actions:
+  openapiHarvested: false
+  openapiDirectoryCreated: false
+  wellKnownHarvested: well-known/marshmallow-openid-configuration.json
+  apisYmlApisCount: 0
+  reason: |
+    apis[] is intentionally EMPTY. Marshmallow publishes no public, documented,
+    self-serve API and no machine-readable API definition. Listing anything in
+    apis[] would require inventing a surface that does not exist. The one real
+    machine-readable artifact Marshmallow serves anonymously — its OIDC
+    discovery document — is recorded verbatim under well-known/ and pointed at
+    from the common[] block, which is the honest place for it: it describes how
+    Marshmallow authenticates its own and its partners' clients, not an API a
+    third party can consume.

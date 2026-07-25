@@ -1,0 +1,85 @@
+aid: marshmallow
+url: https://raw.githubusercontent.com/api-evangelist/marshmallow/refs/heads/main/apis.yml
+name: Marshmallow
+kind: company
+description: >-
+  Marshmallow is a London-headquartered UK insurtech founded in 2017 by twins
+  Alexander and Oliver Kent-Braham with engineer David Goate, built around a
+  single underserved segment: people who have recently moved to the United
+  Kingdom. Traditional UK motor underwriters ignore overseas driving history and
+  price newcomers punitively, so Marshmallow built its own pricing, fraud and
+  underwriting models that consume global rather than only national driving data.
+  It is one of the small number of UK insurtechs that owns the whole value chain
+  rather than renting a carrier's paper: Marshmallow Financial Services Limited
+  distributes and is authorised and regulated by the Financial Conduct Authority
+  (FRN 797672), Marshmallow Credit Services Limited holds a separate FCA
+  authorisation (FRN 1024606) for its car-finance product, and Marshmallow
+  Insurance Limited is an authorised insurance undertaking regulated by the
+  Gibraltar Financial Services Commission that underwrites motor risk and files
+  an annual Solvency and Financial Condition Report. Lines of business are
+  private motor and telematics motor, van, home (buildings, contents and personal
+  possessions) and car finance, sold direct-to-consumer through an app and web
+  quote flow with offices in London and Budapest. The company reached unicorn
+  valuation in 2021 and was ranked Europe's second fastest-growing company by the
+  Financial Times in 2023. Its API posture is honest and narrow: Marshmallow
+  publishes NO public, self-serve developer portal and NO downloadable OpenAPI.
+  There is no developer., developers. or api-docs surface; api.marshmallow.com
+  and docs.marshmallow.com exist but return 403 to anonymous callers, and
+  account.marshmallow.com / app.marshmallow.com are consumer login walls. The
+  only anonymously reachable machine-readable artifact is an OpenID Connect
+  discovery document at auth.marshmallow.com, which advertises authorization-code
+  with PKCE, client-credentials, refresh-token and token-exchange grants, mTLS
+  client authentication and certificate-bound tokens, and publishes only the
+  openid scope — real OAuth infrastructure serving Marshmallow's own apps and
+  partners, with no public client registration. Marshmallow is therefore a
+  technology-first insurer whose APIs are entirely internal and partner-gated,
+  and no ACORD, AL3, ACORD XML or NGDS reference appears anywhere on its public
+  properties.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Insurance
+- United Kingdom
+- Insurtech
+- Property and Casualty
+- Motor Insurance
+- Home Insurance
+- Telematics
+- Underwriting
+- Claims
+- Direct to Consumer
+- Partner Gated
+- No Public API
+created: '2026-07-25'
+modified: '2026-07-25'
+specificationVersion: '0.19'
+apis: []
+common:
+- type: Website
+  url: https://www.marshmallow.com/
+- type: About
+  url: https://www.marshmallow.com/our-story
+- type: Blog
+  url: https://www.marshmallow.com/blog
+- type: GitHubOrganization
+  url: https://github.com/marshmallow-insurance
+- type: LinkedIn
+  url: https://www.linkedin.com/company/marshmallowltd
+- type: OpenIDConfiguration
+  url: well-known/marshmallow-openid-configuration.json
+- type: Authentication
+  url: https://auth.marshmallow.com/.well-known/openid-configuration
+- type: CustomerPortal
+  url: https://account.marshmallow.com/
+- type: Claims
+  url: https://www.marshmallow.com/claims
+- type: Support
+  url: https://www.marshmallow.com/help
+- type: Compliance
+  url: https://www.marshmallow.com/solvency-and-financial-condition-report
+- type: PrivacyPolicy
+  url: https://www.marshmallow.com/privacy-policy
+- type: Review
+  url: review.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
