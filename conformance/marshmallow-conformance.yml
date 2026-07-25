@@ -1,0 +1,101 @@
+generated: '2026-07-25'
+method: derived
+source: well-known/marshmallow-openid-configuration.json
+note: >-
+  Conformance is asserted only from what Marshmallow publishes anonymously —
+  its OpenID Connect discovery document — plus its public regulatory filings.
+  There is no OpenAPI, no GraphQL SDL and no documentation host to read, so
+  REST-level conventions (pagination, RFC 9457 problem details, idempotency)
+  cannot be assessed and are recorded as unknown rather than guessed.
+standards:
+- id: oauth2
+  conforms: true
+  evidence: >-
+    Discovery document advertises authorization, token, revocation and
+    introspection endpoints with authorization_code, client_credentials and
+    refresh_token grants.
+- id: openid-connect-core
+  conforms: true
+  evidence: >-
+    issuer, userinfo_endpoint, jwks_uri, id_token_signing_alg_values_supported
+    (RS256), subject_types_supported (public), scopes_supported includes openid.
+- id: openid-connect-discovery
+  conforms: true
+  evidence: https://auth.marshmallow.com/.well-known/openid-configuration returns 200 application/json
+- id: rfc8414-oauth-authorization-server-metadata
+  conforms: false
+  evidence: /.well-known/oauth-authorization-server returns 401 "Unauthorized" (gated, not published)
+- id: rfc7636-pkce
+  conforms: true
+  evidence: code_challenge_methods_supported = ["S256"]
+- id: rfc8705-mtls-and-certificate-bound-tokens
+  conforms: true
+  evidence: >-
+    token_endpoint_auth_methods_supported includes tls_client_auth and
+    self_signed_tls_client_auth; tls_client_certificate_bound_access_tokens = true.
+- id: rfc9449-dpop
+  conforms: true
+  evidence: dpop_signing_alg_values_supported lists RS/PS/ES families.
+- id: rfc8693-token-exchange
+  conforms: true
+  evidence: grant_types_supported includes urn:ietf:params:oauth:grant-type:token-exchange
+- id: rfc7009-token-revocation
+  conforms: true
+  evidence: revocation_endpoint published with six client-auth methods.
+- id: rfc7662-token-introspection
+  conforms: true
+  evidence: introspection_endpoint published with six client-auth methods.
+- id: rfc7523-jwt-client-authentication
+  conforms: true
+  evidence: token_endpoint_auth_methods_supported includes client_secret_jwt and private_key_jwt.
+- id: rfc7591-dynamic-client-registration
+  conforms: false
+  evidence: No registration_endpoint advertised; clients are provisioned out of band.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: No /.well-known/security.txt on any Marshmallow host (403/401/404 across all hosts).
+- id: rfc9457-problem-details
+  conforms: unknown
+  evidence: No public API surface or spec to inspect.
+- id: openapi
+  conforms: false
+  evidence: >-
+    No OpenAPI or Swagger document at any probed path on api.marshmallow.com,
+    docs.marshmallow.com or www.marshmallow.com.
+- id: asyncapi
+  conforms: false
+  evidence: No public event, streaming or webhook surface.
+- id: fapi
+  conforms: unknown
+  evidence: >-
+    The building blocks FAPI 2.0 requires (PKCE S256, mTLS or DPoP sender
+    constraining, private_key_jwt) are all present, but Marshmallow makes no
+    FAPI conformance claim and is not listed in the OpenID Foundation
+    certification register.
+- id: acord
+  conforms: false
+  evidence: >-
+    No mention of ACORD, ACORD XML, AL3, NGDS or ACORD certification anywhere on
+    Marshmallow's public properties. As a UK personal-lines direct writer with
+    no independent-agency channel, there is no agency-download dependency.
+- id: uk-open-banking
+  conforms: false
+  evidence: Not a CMA9 or open-banking participant; motor/home insurer and FCA-authorised credit broker.
+- id: solvency-ii
+  conforms: true
+  evidence: >-
+    Marshmallow Insurance Limited (Gibraltar Financial Services Commission)
+    publishes an annual Solvency and Financial Condition Report at
+    https://www.marshmallow.com/solvency-and-financial-condition-report
+regulatory:
+- regime: FCA (United Kingdom)
+  entity: Marshmallow Financial Services Limited
+  reference: FRN 797672
+  scope: insurance distribution
+- regime: FCA (United Kingdom)
+  entity: Marshmallow Credit Services Limited
+  reference: FRN 1024606
+  scope: car finance / credit broking
+- regime: Gibraltar Financial Services Commission
+  entity: Marshmallow Insurance Limited
+  scope: authorised insurance undertaking (motor underwriting), Solvency II SFCR filed annually

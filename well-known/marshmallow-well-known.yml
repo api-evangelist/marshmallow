@@ -1,0 +1,110 @@
+generated: '2026-07-25'
+method: searched
+source: live probes of every Marshmallow host on 2026-07-25
+note: >-
+  Marshmallow serves exactly one anonymously reachable /.well-known/ document:
+  the OpenID Connect discovery metadata at auth.marshmallow.com. Every other
+  well-known path on every other host is blocked (403 at the CDN edge on
+  www./docs., 401 at the authorization server, 404 on the private API host) or
+  is an SPA catch-all. account.marshmallow.com returns HTTP 200 for every
+  well-known path but the body is the consumer account HTML shell
+  (<!DOCTYPE html> ... "Account | Marshmallow"), NOT a discovery document, so
+  those are recorded as html-shell rather than as hits.
+hosts:
+- host: https://auth.marshmallow.com
+  role: authorization server (OAuth 2.0 / OpenID Connect)
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 200
+    file: marshmallow-openid-configuration.json
+    content_type: application/json
+  - path: /.well-known/oauth-authorization-server
+    status: 401
+    note: body "Unauthorized" — gated, not published anonymously
+  - path: /.well-known/oauth-protected-resource
+    status: 401
+  - path: /.well-known/security.txt
+    status: 401
+  - path: /.well-known/api-catalog
+    status: 401
+  - path: /.well-known/ai-plugin.json
+    status: 401
+- host: https://api.marshmallow.com
+  role: private application API (nginx origin, 403 at root)
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+- host: https://www.marshmallow.com
+  role: consumer marketing site
+  documents:
+  - path: /.well-known/security.txt
+    status: 403
+    note: >-
+      403 is an edge block on the /.well-known/ prefix, not a 404 — unknown
+      paths such as /security and /responsible-disclosure return 404. No
+      RFC 9116 security.txt is published.
+  - path: /.well-known/openid-configuration
+    status: 403
+  - path: /.well-known/oauth-authorization-server
+    status: 403
+  - path: /.well-known/oauth-protected-resource
+    status: 403
+  - path: /.well-known/api-catalog
+    status: 403
+  - path: /.well-known/ai-plugin.json
+    status: 403
+- host: https://docs.marshmallow.com
+  role: CloudFront distribution, blocks anonymous callers
+  documents:
+  - path: /.well-known/security.txt
+    status: 403
+  - path: /.well-known/openid-configuration
+    status: 403
+  - path: /.well-known/oauth-authorization-server
+    status: 403
+  - path: /.well-known/oauth-protected-resource
+    status: 403
+  - path: /.well-known/api-catalog
+    status: 403
+  - path: /.well-known/ai-plugin.json
+    status: 403
+- host: https://account.marshmallow.com
+  role: consumer account SPA (login wall)
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 200
+    content_type: text/html
+    note: html-shell — SPA catch-all, not a discovery document
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: text/html
+    note: html-shell
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: text/html
+    note: html-shell
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/html
+    note: html-shell
+  - path: /.well-known/api-catalog
+    status: 200
+    content_type: text/html
+    note: html-shell
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    content_type: text/html
+    note: html-shell
+security_txt:
+  published: false
+  note: No RFC 9116 security.txt on any Marshmallow host.

@@ -1,0 +1,71 @@
+generated: '2026-07-25'
+method: searched
+source: >-
+  npm registry (@mrshmllw scope), github.com/marshmallow-insurance; PyPI,
+  RubyGems, Packagist, NuGet, crates.io and pkg.go.dev probed with no
+  first-party hits.
+note: >-
+  Marshmallow publishes three first-party npm packages, all under the
+  @mrshmllw scope and all front-end engineering libraries used by its own web
+  apps — a React component library, a design-token system and a shared utility
+  and config bundle. NONE of them is an API client library: there is no
+  Marshmallow SDK for any API, because there is no public Marshmallow API.
+  For that reason no `SDKs` pointer is wired in apis.yml — only `Packages`
+  (and `Components`, which is what these libraries actually are).
+  Homonym warning: the widely used Python `marshmallow` serialization library
+  (github.com/marshmallow-code) is unrelated to this company and is NOT
+  recorded here.
+registries_probed:
+- {registry: npm, result: 3 first-party packages under @mrshmllw}
+- {registry: pypi, result: none (marshmallow-insurance 404; the `marshmallow` project belongs to marshmallow-code, unrelated)}
+- {registry: rubygems, result: none}
+- {registry: packagist, result: none}
+- {registry: nuget, result: none}
+- {registry: crates.io, result: none}
+- {registry: pkg.go.dev, result: none}
+- {registry: maven-central, result: none}
+packages:
+- language: javascript
+  registry: npm
+  name: "@mrshmllw/smores-react"
+  version: 16.1.3
+  released: '2026-07-23'
+  license: MIT
+  url: https://www.npmjs.com/package/@mrshmllw/smores-react
+  repository: https://github.com/marshmallow-insurance/smores-react
+  docs: http://marshmallow-insurance.github.io/smores-react
+  install: npm install @mrshmllw/smores-react
+  description: Collection of React components used by Marshmallow Technology.
+  kind: ui-components
+  api_client: false
+  official: true
+- language: javascript
+  registry: npm
+  name: "@mrshmllw/campfire"
+  version: 6.1.4
+  released: '2026-07-23'
+  license: ISC
+  url: https://www.npmjs.com/package/@mrshmllw/campfire
+  repository: https://github.com/marshmallow-insurance/campfire
+  install: npm install @mrshmllw/campfire
+  description: >-
+    Utility and shared-config library for reducing duplication across
+    Marshmallow's front end.
+  kind: utilities
+  api_client: false
+  official: true
+- language: javascript
+  registry: npm
+  name: "@mrshmllw/smores-foundations"
+  version: 1.1.1
+  released: '2026-05-11'
+  url: https://www.npmjs.com/package/@mrshmllw/smores-foundations
+  repository: https://github.com/marshmallow-insurance/smores-foundations
+  install: npm install @mrshmllw/smores-foundations
+  description: Design token system for Marshmallow Insurance.
+  kind: design-tokens
+  api_client: false
+  official: true
+sdk_summary:
+  api_client_libraries: 0
+  note: No API client SDK exists in any language because no public API exists.

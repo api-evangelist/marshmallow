@@ -1,0 +1,38 @@
+generated: '2026-07-25'
+method: searched
+source: https://auth.marshmallow.com/.well-known/openid-configuration
+local_copy: well-known/marshmallow-openid-configuration.json
+docs: null
+note: >-
+  Marshmallow runs a real OAuth 2.0 / OpenID Connect authorization server but
+  publishes only the `openid` scope in its discovery metadata. No product
+  scopes are advertised anonymously and there is no public scopes or
+  permissions reference page. Any partner-specific scopes are provisioned out
+  of band with the client and are not recorded here — nothing is inferred.
+schemes:
+- name: MarshmallowOpenIDConnect
+  source: well-known/marshmallow-openid-configuration.json
+  issuer: https://auth.marshmallow.com
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://auth.marshmallow.com/oauth2/authorize
+    tokenUrl: https://auth.marshmallow.com/oauth2/token
+    pkce: S256
+  - flow: clientCredentials
+    tokenUrl: https://auth.marshmallow.com/oauth2/token
+  - flow: refreshToken
+    tokenUrl: https://auth.marshmallow.com/oauth2/token
+  - flow: tokenExchange
+    tokenUrl: https://auth.marshmallow.com/oauth2/token
+    grant: urn:ietf:params:oauth:grant-type:token-exchange
+scopes:
+- scope: openid
+  description: >-
+    OpenID Connect authentication scope — requests an ID token identifying the
+    end user. The only scope Marshmallow advertises publicly.
+  flows: [authorizationCode]
+  sources: [well-known/marshmallow-openid-configuration.json]
+coverage:
+  scopes_published: 1
+  product_scopes_published: 0
+  dynamic_client_registration: false

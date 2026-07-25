@@ -54,6 +54,8 @@ modified: '2026-07-25'
 specificationVersion: '0.19'
 apis: []
 common:
+- type: DomainSecurity
+  url: security/marshmallow-domain-security.yml
 - type: Website
   url: https://www.marshmallow.com/
 - type: About
@@ -66,8 +68,22 @@ common:
   url: https://www.linkedin.com/company/marshmallowltd
 - type: OpenIDConfiguration
   url: well-known/marshmallow-openid-configuration.json
-- type: Authentication
+- type: OpenIDConnect
   url: https://auth.marshmallow.com/.well-known/openid-configuration
+- type: Authentication
+  url: authentication/marshmallow-authentication.yml
+- type: OAuthScopes
+  url: scopes/marshmallow-scopes.yml
+- type: WellKnown
+  url: well-known/marshmallow-well-known.yml
+- type: Conformance
+  url: conformance/marshmallow-conformance.yml
+- type: Packages
+  url: packages/marshmallow-packages.yml
+- type: Components
+  url: components/marshmallow-components.yml
+- type: LLMsTxt
+  url: llms/marshmallow-llms.txt
 - type: CustomerPortal
   url: https://account.marshmallow.com/
 - type: Claims
@@ -78,6 +94,8 @@ common:
   url: https://www.marshmallow.com/solvency-and-financial-condition-report
 - type: PrivacyPolicy
   url: https://www.marshmallow.com/privacy-policy
+- type: TermsOfService
+  url: https://www.marshmallow.com/terms-and-conditions
 - type: Review
   url: review.yml
 maintainers:

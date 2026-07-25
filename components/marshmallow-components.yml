@@ -1,0 +1,54 @@
+generated: '2026-07-25'
+method: searched
+source: >-
+  https://github.com/marshmallow-insurance/smores-react,
+  http://marshmallow-insurance.github.io/smores-react,
+  npm @mrshmllw scope
+note: >-
+  Marshmallow open-sources its own design system — "Smores" — as installable
+  client-side component libraries. These are the components Marshmallow's
+  consumer web app and internal tools are built from, published publicly and
+  usable by anyone, but they are NOT embeddable API-integration surfaces
+  (there is no Marshmallow quote widget, no hosted policy element, no embedded
+  claims iframe for third parties). Recorded here as what they are: a public
+  front-end component estate, not a partner integration surface.
+families:
+- name: Smores
+  description: Marshmallow's React design system.
+  kind: react-component-library
+  package: "@mrshmllw/smores-react"
+  version: 16.1.3
+  repository: https://github.com/marshmallow-insurance/smores-react
+  storybook: http://marshmallow-insurance.github.io/smores-react
+  license: MIT
+  loader: npm install @mrshmllw/smores-react
+  embeddable_third_party_surface: false
+- name: Smores Foundations
+  description: Design token system (colour, type, spacing primitives) underpinning Smores.
+  kind: design-tokens
+  package: "@mrshmllw/smores-foundations"
+  version: 1.1.1
+  repository: https://github.com/marshmallow-insurance/smores-foundations
+  loader: npm install @mrshmllw/smores-foundations
+  embeddable_third_party_surface: false
+- name: Smores Icons
+  description: Icon set companion to Smores.
+  kind: icon-library
+  repository: https://github.com/marshmallow-insurance/smores-icons
+  docs: https://marshmallow-insurance.github.io/smores-icons/
+  status: archived
+  embeddable_third_party_surface: false
+- name: Campfire
+  description: Shared front-end utilities and build/lint configuration.
+  kind: utilities
+  package: "@mrshmllw/campfire"
+  version: 6.1.4
+  repository: https://github.com/marshmallow-insurance/campfire
+  license: ISC
+  loader: npm install @mrshmllw/campfire
+  embeddable_third_party_surface: false
+hosted_surfaces:
+  quote_widget: false
+  embedded_policy_management: false
+  claims_widget: false
+  partner_iframe: false

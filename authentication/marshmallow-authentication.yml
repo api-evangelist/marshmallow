@@ -1,0 +1,77 @@
+generated: '2026-07-25'
+method: searched
+source: https://auth.marshmallow.com/.well-known/openid-configuration
+local_copy: well-known/marshmallow-openid-configuration.json
+note: >-
+  Derived from the only machine-readable authentication artifact Marshmallow
+  publishes anonymously — its OpenID Connect discovery document. There is no
+  OpenAPI to derive securitySchemes from, and no public documentation of how a
+  third party obtains a client: registration is manual and partner-gated
+  (no dynamic client registration endpoint is advertised).
+summary:
+  types: [oauth2, openIdConnect]
+  api_key_in: []
+  oauth2_flows: [authorizationCode, clientCredentials, refreshToken, tokenExchange]
+  public_registration: false
+  self_serve: false
+  access: partner-gated
+schemes:
+- name: MarshmallowOpenIDConnect
+  type: openIdConnect
+  openIdConnectUrl: https://auth.marshmallow.com/.well-known/openid-configuration
+  issuer: https://auth.marshmallow.com
+  sources: [well-known/marshmallow-openid-configuration.json]
+  endpoints:
+    authorization: https://auth.marshmallow.com/oauth2/authorize
+    token: https://auth.marshmallow.com/oauth2/token
+    userinfo: https://auth.marshmallow.com/userinfo
+    jwks: https://auth.marshmallow.com/oauth2/jwks
+    revocation: https://auth.marshmallow.com/oauth2/revoke
+    introspection: https://auth.marshmallow.com/oauth2/introspect
+    end_session: https://auth.marshmallow.com/connect/logout
+    registration: null
+  grant_types:
+  - authorization_code
+  - client_credentials
+  - refresh_token
+  - urn:ietf:params:oauth:grant-type:token-exchange
+  response_types: [code]
+  client_authentication:
+  - client_secret_basic
+  - client_secret_post
+  - client_secret_jwt
+  - private_key_jwt
+  - tls_client_auth
+  - self_signed_tls_client_auth
+  pkce:
+    supported: true
+    code_challenge_methods: [S256]
+  mtls:
+    client_authentication: true
+    certificate_bound_access_tokens: true
+  dpop:
+    supported: true
+    signing_algs: [RS256, RS384, RS512, PS256, PS384, PS512, ES256, ES384, ES512]
+  id_token_signing_algs: [RS256]
+  subject_types: [public]
+  scopes: [openid]
+observations:
+- >-
+  Sender-constrained tokens are supported two ways (mTLS certificate-bound per
+  RFC 8705 and DPoP per RFC 9449), which is the profile of an operator that
+  integrates with regulated financial counterparties rather than with the open
+  developer public.
+- >-
+  Token exchange (RFC 8693) is enabled, consistent with service-to-service
+  delegation inside Marshmallow's own estate and with named partners.
+- >-
+  Only the `openid` scope is advertised. No product scopes (quote, policy,
+  claim, payment) are published, so there is no anonymous way to reason about
+  what a partner client may do.
+- >-
+  No dynamic client registration (RFC 7591) endpoint is advertised; clients are
+  provisioned out of band.
+gaps:
+- No public documentation page describing the authentication flow.
+- No sandbox or test client credentials.
+- No published product scopes or consent screens.

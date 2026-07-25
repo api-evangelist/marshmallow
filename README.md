@@ -68,6 +68,23 @@ That is a capable authorization server — the profile of an operator that integ
 
 The United Kingdom has the FCA and PRA but **no open-insurance obligation**. Unlike Open Banking, no rule compels a UK insurer to expose quote, policy, claims, or customer-data APIs, and the FCA's Open Finance work remains consultation rather than rule. The one market-wide API and data modernization effort in UK insurance is the London Market's Blueprint Two / PPL / Whitespace / Ki programme — aimed at brokers and syndicates in the subscription market, invisible from the outside, and irrelevant to a personal-lines direct writer. Marshmallow's zero public API surface is market behaviour, not a laggard signal.
 
+## Artifacts
+
+Enrichment round 2026-07-25. Everything below was searched, probed, or derived from what Marshmallow actually publishes — nothing is inferred from a spec, because there is no spec.
+
+| Artifact | File | Method | What it holds |
+| --- | --- | --- | --- |
+| Well-known index | [`well-known/marshmallow-well-known.yml`](well-known/marshmallow-well-known.yml) | searched | Every `/.well-known/` path probed on all five Marshmallow hosts with its HTTP status. One hit (OIDC discovery); no RFC 9116 `security.txt` anywhere. `account.marshmallow.com` returns 200 for every path but the body is the SPA HTML shell, recorded as `html-shell`, not a hit. |
+| Authentication | [`authentication/marshmallow-authentication.yml`](authentication/marshmallow-authentication.yml) | searched | The OIDC profile: endpoints, four grant types, six client-auth methods, PKCE S256, mTLS + certificate-bound tokens, DPoP, no dynamic client registration. |
+| OAuth scopes | [`scopes/marshmallow-scopes.yml`](scopes/marshmallow-scopes.yml) | searched | The single published scope, `openid`. Zero product scopes. |
+| Conformance | [`conformance/marshmallow-conformance.yml`](conformance/marshmallow-conformance.yml) | derived | OAuth/OIDC RFC conformance read off the discovery document (7636, 7009, 7523, 7662, 8693, 8705, 9449 all yes; 7591 and 8414 no), plus explicit `false` on OpenAPI, AsyncAPI, ACORD and security.txt, `unknown` where there is nothing to inspect, and the FCA/GFSC regulatory register. |
+| Domain security | [`security/marshmallow-domain-security.yml`](security/marshmallow-domain-security.yml) | probed | TLS 1.3 on all five hosts; HSTS only on `auth.` and `account.`; no CAA, no DNSSEC; SPF present, DMARC `p=reject`. |
+| Packages | [`packages/marshmallow-packages.yml`](packages/marshmallow-packages.yml) | searched | Three first-party npm packages under `@mrshmllw`. **Zero API client SDKs** — eight registries probed. |
+| Components | [`components/marshmallow-components.yml`](components/marshmallow-components.yml) | searched | The public "Smores" front-end estate (React components, design tokens, archived icons, Campfire utils). No embeddable third-party quote/policy/claims surface. |
+| llms.txt | [`llms/marshmallow-llms.txt`](llms/marshmallow-llms.txt) | generated | Agent-readable summary of this repo; `https://www.marshmallow.com/llms.txt` returns 404. |
+
+No `openapi/`, `asyncapi/`, `mcp/`, `skills/`, `arazzo/`, `errors/`, `conventions/`, `sandbox/`, `changelog/`, `cli/`, `lifecycle/` or `grpc/` artifacts exist here, and none were fabricated: each requires a machine-readable contract or a documentation host that Marshmallow does not expose. `status.`, `trust.`, `partners.`, `developers.` and `mcp.` subdomains do not resolve; there is no public Postman workspace; the org `SECURITY.md` is GitHub's unmodified template with no contact, so no vulnerability-disclosure artifact was recorded.
+
 ## Links
 
 - [Website](https://www.marshmallow.com/)
